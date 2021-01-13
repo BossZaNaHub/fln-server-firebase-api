@@ -1,6 +1,8 @@
-import firebase from "firebase/app";
-import "firebase/database";
+// import {Firestore} from "../services/firebase"
 
-const databaseRef = firebase.database().ref();
-
-export const userDocument = databaseRef.child("user");
+export interface User {
+    name: string
+    email: string
+    createdAt: Date
+    updatedAt: Date
+}
