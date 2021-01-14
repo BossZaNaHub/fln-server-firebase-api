@@ -7,7 +7,8 @@ class UserRoute {
 
     public routes(api: Application): any {
       this.router.get("/ping", this.userController.getPing)
-      this.router.get("/users", this.userController.getUsers)
+      this.router.get("/", this.userController.getAllUser)
+      this.router.post("/create", this.userController.createUser)
 
       api.use("/users", this.router)
     }

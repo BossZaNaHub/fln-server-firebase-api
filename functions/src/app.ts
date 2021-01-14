@@ -1,7 +1,7 @@
 import * as express from "express"
 import * as cors from "cors"
-import {Application} from "express"
 import * as admin from "firebase-admin"
+import {Application} from "express"
 import * as bodyParser from "body-parser"
 import Routes from "./endpoints/api"
 import {ClientError} from "./errors/client-error"
@@ -13,7 +13,7 @@ const NAMESPACE = "Firebase"
  * Create Express App
  */
 class App {
-  // public api: Application
+  public api: Application
   public app: Application
   public routes: Routes
   /**
@@ -22,19 +22,19 @@ class App {
   constructor() {
     this.firebaseSetup()
     this.app = express()
-    this.routes = new Routes(this.app)
+    this.api = express()
+    this.routes = new Routes(this.api)
     this.applyMiddleware()
     this.errorHandler()
     this.logger()
-    Logger.info(NAMESPACE, "is running")
   }
   /**
   * Call Initital Firebase
   */
   private firebaseSetup(): void {
-    admin.initializeApp({
-      credential: admin.credential.applicationDefault(),
-    })
+    // admin.initializeApp({
+    //   credential: admin.credential.cert(serviceAccount),
+    // })
     admin.firestore().settings({
       timestampsInSnapshots: true,
     })
@@ -63,6 +63,7 @@ class App {
   */
   private applyMiddleware(): void {
     this.app.use(cors())
+    this.app.use("/api/v1", this.api)
     this.app.use(bodyParser.json())
     this.app.use(bodyParser.urlencoded({extended: false}))
   }
