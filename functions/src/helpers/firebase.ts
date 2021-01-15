@@ -16,9 +16,8 @@ const params = {
 
 admin.initializeApp({
   credential: admin.credential.cert(params),
+  storageBucket: "staging.fastlaner-24f74.appspot.com",
 })
 
-
 export const Firestore = admin.firestore()
-
-export const UserCollection = "users"
+export const Storage = admin.storage().bucket()
